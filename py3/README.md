@@ -11,6 +11,14 @@
    pytest will run all files of the form test_*.py or *_test.py in the current directory and its subdirectories. More generally, it follows [standard test discovery rules](https://docs.pytest.org/en/latest/goodpractices.html#test-discovery).
       
 * Group multiple tests in a class
+* Request a unique temporary directory for functional tests
+
+```python
+pytest --fixtures   # shows builtin and custom fixtures
+```
+
+[Marking test functions with attributes - skip, skipx](https://docs.pytest.org/en/latest/mark.html#mark)
+[]
 
 
 ----
