@@ -1,7 +1,7 @@
 # Ubuntu Tutorial
 
 ## Installation from U-disk
-modify the bios
+modify the BIOS
 RAID0 -> ACHI
 
 ## Install Sogo PinYin
