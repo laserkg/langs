@@ -30,4 +30,81 @@ $ xclip -out
 本来就是如此，不必设置，只是粘贴不是ctr + v而是shift + insert.
 
 
+## [免sudo使用docker命令](https://www.jianshu.com/p/95e397570896)
+1. 添加用户到docker组
+```
+$ sudo usermod -aG docker zhishan
+```
+切换当前会话到新 group 或者重启 X 会话
+```
+$ newgrp - docker
+
+```
+
+2. 并修改`/lib/systemd/system.service`配置文件，增加`User=docker`，以下是`colord`进程的配置文件
+```
+[Unit]
+Description=Manage, Install and Generate Color Profiles
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.ColorManager
+ExecStart=/usr/lib/colord/colord
+User=colord
+# We think that udev's AF_NETLINK messages are being filtered when
+# network namespacing is on.
+# PrivateNetwork=yes
+PrivateTmp=yes
+
+```
+进程管理中显示：
+```
+$ ps -ef | grep colord
+colord    1313     1  0 17:56 ?        00:00:00 /usr/lib/colord/colord
+
+$ sudo systemctl enable docker.service
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+
+
+$ sudo service docker start
+Warning: docker.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+Job for docker.service failed because the control process exited with error code. See "systemctl status docker.service" and "journalctl -xe" for details.
+```
+
+#### How to start and stop a service?
+ service --status-all
+
+### [systemctl 命令完全指南](https://www.linuxidc.com/Linux/2015-07/120833.htm)
+### [linux中service与chkconfig的替代者systemctl](https://blog.csdn.net/hshl1214/article/details/45566957)
+
+### [以非root账号启动docker](https://www.jianshu.com/p/95e397570896)
+```
+$ docker ps
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.26/containers/json: dial unix /var/run/docker.sock: connect: permission denied
+$ cd /var/run
+$ ls -l |grep docker.
+srw-rw----  1 root  docker    0 5月   8 06:05 docker.sock
+```
+可以看到其属主为root，权限为rw，可读可写；其属组为docker，权限为rw，可读可写。如果要当前用户可直接读取该文件，那么我们就为当前用户添加到docker属组即可。
+
+####
+
+* 删除用户组 groupdel yourgrp
+
+
+$ sudo apt install openjdk-9-jdk
+[sudo] password for zhishan: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following package was automatically installed and is no longer required:
+  snap-confine
+Use 'sudo apt autoremove' to remove it.
+The following additional packages will be installed:
+
+
+## 设置快速打开Terminal的快捷键
+Ctrl+Alt+T，快捷键搞定: 这是启动新的窗口
+
 
